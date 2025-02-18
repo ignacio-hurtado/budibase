@@ -1,13 +1,22 @@
 <script>
+  import { createEventDispatcher } from 'svelte';
+
   import "@spectrum-css/tags/dist/index-vars.css"
   import Avatar from "../Avatar/Avatar.svelte"
   import ClearButton from "../ClearButton/ClearButton.svelte"
+
+  const dispatch = createEventDispatcher();
 
   export let icon = ""
   export let avatar = ""
   export let invalid = false
   export let disabled = false
   export let closable = false
+
+  function handleClose() {
+    // Dispatch an event named "close" that parent components can listen for
+    dispatch("close");
+
 </script>
 
 <div
@@ -31,7 +40,11 @@
   {/if}
   <span class="spectrum-Tags-itemLabel"><slot /></span>
   {#if closable}
-    <ClearButton on:click />
+    <ClearButton
+    icon="close"
+    aria-label="Close"
+    on:click={handleClose}
+    />
   {/if}
 </div>
 
